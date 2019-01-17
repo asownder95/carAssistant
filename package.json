@@ -1,0 +1,26 @@
+{
+  "name": "carAssistant",
+  "version": "1.0.0",
+  "description": "Alexa skill using Mercedes Benz's Connected Vehicle API",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint handlers/ server/",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/asownder95/carAssistant.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/asownder95/carAssistant/issues"
+  },
+  "homepage": "https://github.com/asownder95/carAssistant#readme",
+  "devDependencies": {
+    "eslint": "^5.12.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0"
+  }
+}

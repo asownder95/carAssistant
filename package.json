@@ -6,6 +6,7 @@
   "scripts": {
     "pre-build": "eslint handlers/ index.js && rm carAssistant.zip",
     "build": "npm run pre-build && zip -r -X carAssistant.zip handlers/ node_modules/ index.js package.json",
+    "start": "node oauthServer.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -25,6 +26,9 @@
     "eslint-plugin-import": "^2.14.0"
   },
   "dependencies": {
-    "ask-sdk": "^2.3.0"
+    "ask-sdk": "^2.3.0",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "morgan": "^1.9.1"
   }
 }

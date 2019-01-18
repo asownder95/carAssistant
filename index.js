@@ -1,5 +1,10 @@
 const Alexa = require('ask-sdk');
-const { LaunchRequestHandler } = require('./handlers/builtInIntents');
+const {
+  LaunchRequestHandler,
+  HelpIntentHandler,
+  CancelAndStopIntentHandler,
+  FallbackIntentHandler,
+} = require('./handlers/builtInIntents');
 const { AccountLinkingHandler } = require('./handlers/accountLinkingHandler');
 const { AuthenticationInterceptor } = require('./handlers/authenticationInterceptor');
 const { ErrorHandler } = require('./handlers/errorHandlers');
@@ -11,6 +16,9 @@ exports.handler = async (event, context) => {
     .addRequestHandlers(
       AccountLinkingHandler,
       LaunchRequestHandler,
+      HelpIntentHandler,
+      CancelAndStopIntentHandler,
+      FallbackIntentHandler,
     )
     .addRequestInterceptors(AuthenticationInterceptor)
     .addErrorHandlers(ErrorHandler)

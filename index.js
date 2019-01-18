@@ -3,11 +3,16 @@ const { LaunchRequestHandler, ErrorHandler } = require('./handlers/builtInIntent
 const { LoginRequestHandler } = require('./handlers/LoginRequestHandler');
 const { OauthInterceptor } = require('./handlers/auth');
 
-exports.handler = Alexa.SkillBuilders.custom()
-  .addRequestHandlers(
-    LoginRequestHandler,
-    LaunchRequestHandler,
-  )
-  .addRequestInterceptors(OauthInterceptor)
-  .addErrorHandlers(ErrorHandler)
-  .lambda();
+exports.handler = async (event, context) => {
+  // This line of code allows handlers to return despite open redisClient connection
+  context.callbackWaitsForEmptyEventLoop = false;
+  return Alexa.SkillBuilders.custom()
+    .addRequestHandlers(
+      LoginRequestHandler,
+      LaunchRequestHandler,
+    )
+    .addRequestInterceptors(OauthInterceptor)
+    .addErrorHandlers(ErrorHandler)
+    .create()
+    .invoke(event, context);
+};

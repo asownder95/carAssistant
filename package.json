@@ -4,8 +4,7 @@
   "description": "Alexa skill using Mercedes Benz's Connected Vehicle API",
   "main": "index.js",
   "scripts": {
-    "pre-build": "eslint handlers/ index.js && rm carAssistant.zip",
-    "build": "npm run pre-build && zip -r -X carAssistant.zip handlers/ node_modules/ index.js package.json",
+    "build": "rm carAssistant.zip; zip -r -X carAssistant.zip handlers/ node_modules/ index.js package.json",
     "start": "node oauthServer.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

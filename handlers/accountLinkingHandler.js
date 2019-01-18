@@ -1,4 +1,4 @@
-exports.LoginRequestHandler = {
+exports.AccountLinkingHandler = {
   canHandle(handlerInput) {
     const { login } = handlerInput.attributesManager.getRequestAttributes();
     return !!login;

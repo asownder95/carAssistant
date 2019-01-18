@@ -4,7 +4,7 @@ const redisClient = redis.createClient(process.env.REDISCLOUD_URL);
 redisClient.on('connect', () => console.log('Redis connected'));
 redisClient.on('error', err => console.error(`Error from Redis: ${JSON.stringify(err)}`));
 
-exports.OauthInterceptor = {
+exports.AuthenticationInterceptor = {
   async process(handlerInput) {
     try {
       const attributes = handlerInput.attributesManager.getSessionAttributes();

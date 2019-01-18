@@ -15,7 +15,7 @@ app.use(bodyParser.json());
 app.use(morgan('dev'));
 
 app.get('/authorizationcode', (req, res) => {
-  const authorizationURI = `https://api.secure.mercedes-benz.com/oidc10/auth/oauth/v2/authorize?response_type=code&client_id=${process.env.ClientID}&redirect_uri=${process.env.RedirectURI}&scope=${process.env.Scopes}`;
+  const authorizationURI = `https://api.secure.mercedes-benz.com/oidc10/auth/oauth/v2/authorize?response_type=code&client_id=${process.env.CLIENT_ID}&redirect_uri=${process.env.REDIRECT_URI}&scope=${process.env.SCOPES}`;
   res.redirect(authorizationURI);
 });
 
@@ -27,10 +27,10 @@ app.get('/accesstoken', async (req, res) => {
       form: {
         grant_type: 'authorization_code',
         code: req.query.code,
-        redirect_uri: process.env.RedirectURI,
+        redirect_uri: process.env.REDIRECT_URI,
       },
       headers: {
-        authorization: `Basic ${Buffer.from(`${process.env.ClientID}:${process.env.SecretClientID}`).toString('base64')}`,
+        authorization: `Basic ${Buffer.from(`${process.env.CLIENT_ID}:${process.env.SECRET_CLIENT_ID}`).toString('base64')}`,
         'content-type': 'application/x-www-form-urlencoded',
       },
     });

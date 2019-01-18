@@ -21,7 +21,7 @@ app.get('/authorizationcode', (req, res) => {
 
 app.get('/accesstoken', async (req, res) => {
   try {
-    const { access_token, refresh_token } = await request({
+    const tokenObj = await request({
       uri: 'https://api.secure.mercedes-benz.com/oidc10/auth/oauth/v2/token',
       method: 'POST',
       form: {
@@ -34,9 +34,10 @@ app.get('/accesstoken', async (req, res) => {
         'content-type': 'application/x-www-form-urlencoded',
       },
     });
+    const { access_token, refresh_token } = JSON.parse(tokenObj);
     // Need to figure out a way to get userId parameter from Alexa skill context
     // Using "userId" as a hard-coded placeholder for now.
-    redisClient.send('userId', `${access_token}:${refresh_token}`, () => {
+    redisClient.set('userId', `${access_token}:${refresh_token}`, () => {
       res.send('Successful!');
     });
   } catch (err) {

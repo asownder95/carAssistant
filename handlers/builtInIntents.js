@@ -33,6 +33,7 @@ exports.CancelAndStopIntentHandler = {
     const speechText = 'Goodbye!';
     return handlerInput.responseBuilder
       .speak(speechText)
+      .withShouldEndSession(true)
       .getResponse();
   },
 };
@@ -45,6 +46,7 @@ exports.FallbackIntentHandler = {
   handle(handlerInput) {
     return handlerInput.responseBuilder
       .speak('Sorry! I didn\'t understand that command. Please try again or say help to learn what I can do.')
+      .reprompt('What would you like to do?')
       .getResponse();
   },
 };

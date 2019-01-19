@@ -17,13 +17,46 @@ const DoorStatusHandler = {
         },
       });
       return handlerInput.responseBuilder
-        .speak(generateDoorStatusResponse(results))
+        .speak(generateDoorStatusResponse(JSON.parse(results)))
         .getResponse();
     } catch (err) {
       if (err.statusCode === 401) {
         return handleExpiredAccessToken(handlerInput, DoorStatusHandler);
       }
-      console.error(`This is the error: ${JSON.stringify(err)}`);
+      throw err;
+    }
+  },
+};
+
+const LockCarHandler = {
+  canHandle(handlerInput) {
+    return handlerInput.requestEnvelope.request.type === 'IntentRequest'
+      && handlerInput.requestEnvelope.request.intent.name === 'LockCar';
+  },
+  async handle(handlerInput) {
+    try {
+      const { accessToken } = handlerInput.attributesManager.getSessionAttributes();
+      const action = handlerInput.requestEnvelope
+        .request.intent.slots.action.value.toLowerCase().includes('un') ? 'UNLOCK' : 'LOCK';
+      const results = await request({
+        uri: `${process.env.API_ENDPOINT}/vehicles/${process.env.VEHICLE_ID}/doors`,
+        method: 'POST',
+        headers: {
+          authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          command: action,
+        }),
+      });
+      return handlerInput.responseBuilder
+        .speak(`Sure, ${action === 'LOCK' ? 'locking' : 'unlocking'} your Mercedes-Benz right now.`)
+        .getResponse();
+    } catch (err) {
+      if (err.statusCode === 401) {
+        return handleExpiredAccessToken(handlerInput, LockCarHandler);
+      }
+      throw err;
     }
   },
 };
@@ -60,4 +93,5 @@ function generateDoorStatusResponse (results) {
 
 module.exports = {
   DoorStatusHandler,
+  LockCarHandler,
 };

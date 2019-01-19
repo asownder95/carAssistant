@@ -8,6 +8,7 @@ const handleExpiredAccessToken = async (handlerInput, requestHandler) => {
     uri: `https://car-assistant-alexa.herokuapp.com/refreshtoken?refresh_token=${refreshToken}`,
     method: 'GET',
   }));
+  console.log(`Refresh token endpoint query results: ${JSON.stringify(results)}`);
   if (results === 'Expired') {
     console.log('Refresh token expired.');
     return AccountLinkingHandler.handle(handlerInput);

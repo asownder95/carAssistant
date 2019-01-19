@@ -5,6 +5,7 @@ const {
   CancelAndStopIntentHandler,
   FallbackIntentHandler,
 } = require('./handlers/builtInIntents');
+const { DoorStatusHandler } = require('./handlers/doorHandlers');
 const { AccountLinkingHandler } = require('./handlers/accountLinkingHandler');
 const { AuthenticationInterceptor } = require('./handlers/authenticationInterceptor');
 const { ErrorHandler } = require('./handlers/errorHandlers');
@@ -16,6 +17,7 @@ exports.handler = async (event, context) => {
     .addRequestHandlers(
       AccountLinkingHandler,
       LaunchRequestHandler,
+      DoorStatusHandler,
       HelpIntentHandler,
       CancelAndStopIntentHandler,
       FallbackIntentHandler,

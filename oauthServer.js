@@ -41,7 +41,37 @@ app.get('/accesstoken', async (req, res) => {
       res.send('Successful!');
     });
   } catch (err) {
-    res.send(err);
+    res.send(`We were unable to link your account. Please try again later. ${err.message}`);
+  }
+});
+
+app.get('/refreshtoken', async (req, res) => {
+  try {
+    const tokenObj = await request({
+      uri: 'https://api.secure.mercedes-benz.com/oidc10/auth/oauth/v2/token',
+      method: 'POST',
+      form: {
+        grant_type: 'refresh_token',
+        refresh_token: req.query.refresh_token,
+      },
+      headers: {
+        authorization: `Basic ${Buffer.from(`${process.env.CLIENT_ID}:${process.env.SECRET_CLIENT_ID}`).toString('base64')}`,
+        'content-type': 'application/x-www-form-urlencoded',
+      },
+    });
+    const { access_token, refresh_token } = JSON.parse(tokenObj);
+    redisClient.set('userId', `${access_token}:${refresh_token}`, () => {
+      res.send(tokenObj);
+    });
+  } catch (err) {
+    if (err.statusCode === 400) {
+      // If refresh token has expired or invalid
+      console.log(`refresh token err 400 catch block: ${JSON.stringify(err)}`);
+      res.json('Expired');
+    } else {
+      console.error(`Refresh Token endpoint error: ${JSON.stringify(err)}`);
+      res.json(err);
+    }
   }
 });
 

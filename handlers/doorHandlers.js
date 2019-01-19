@@ -1,5 +1,6 @@
 const request = require('request-promise');
 const { handleExpiredAccessToken } = require('./utils');
+const { API_ENDPOINT, VEHICLE_ID } = require('../config');
 
 const DoorStatusHandler = {
   canHandle(handlerInput) {
@@ -10,7 +11,7 @@ const DoorStatusHandler = {
     try {
       const { accessToken } = handlerInput.attributesManager.getSessionAttributes();
       const results = await request({
-        uri: `${process.env.API_ENDPOINT}/vehicles/${process.env.VEHICLE_ID}/doors`,
+        uri: `${API_ENDPOINT}/vehicles/${VEHICLE_ID}/doors`,
         method: 'GET',
         headers: {
           authorization: `Bearer ${accessToken}`,
@@ -39,7 +40,7 @@ const LockCarHandler = {
       const action = handlerInput.requestEnvelope
         .request.intent.slots.action.value.toLowerCase().includes('un') ? 'UNLOCK' : 'LOCK';
       const results = await request({
-        uri: `${process.env.API_ENDPOINT}/vehicles/${process.env.VEHICLE_ID}/doors`,
+        uri: `${API_ENDPOINT}/vehicles/${VEHICLE_ID}/doors`,
         method: 'POST',
         headers: {
           authorization: `Bearer ${accessToken}`,

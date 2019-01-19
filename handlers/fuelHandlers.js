@@ -1,5 +1,6 @@
 const request = require('request-promise');
 const { handleExpiredAccessToken } = require('./utils');
+const { API_ENDPOINT, VEHICLE_ID } = require('../config');
 
 const FuelStatusHandler = {
   canHandle(handlerInput) {
@@ -10,7 +11,7 @@ const FuelStatusHandler = {
     try {
       const { accessToken } = handlerInput.attributesManager.getSessionAttributes();
       const results = await request({
-        uri: `${process.env.API_ENDPOINT}/vehicles/${process.env.VEHICLE_ID}/fuel`,
+        uri: `${API_ENDPOINT}/vehicles/${VEHICLE_ID}/fuel`,
         method: 'GET',
         headers: {
           authorization: `Bearer ${accessToken}`,

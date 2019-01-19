@@ -1,0 +1,5 @@
+module.exports = {
+  API_ENDPOINT: 'FILL THIS IN',
+  REDISCLOUD_URL: 'FILL THIS IN',
+  VEHICLE_ID: 'FILL THIS IN',
+};

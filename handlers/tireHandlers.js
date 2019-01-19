@@ -1,5 +1,6 @@
 const request = require('request-promise');
 const { handleExpiredAccessToken } = require('./utils');
+const { API_ENDPOINT, VEHICLE_ID } = require('../config');
 
 const TireStatusHandler = {
   canHandle(handlerInput) {
@@ -12,7 +13,7 @@ const TireStatusHandler = {
       const isMetricUnits = handlerInput.requestEnvelope
         .request.intent.slots.units.value.toLowerCase().includes('metric');
       const results = await request({
-        uri: `${process.env.API_ENDPOINT}/vehicles/${process.env.VEHICLE_ID}/tires`,
+        uri: `${API_ENDPOINT}/vehicles/${VEHICLE_ID}/tires`,
         method: 'GET',
         headers: {
           authorization: `Bearer ${accessToken}`,

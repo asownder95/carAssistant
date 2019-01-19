@@ -1,0 +1,228 @@
+{
+  "interactionModel": {
+      "languageModel": {
+          "invocationName": "mercedes assistant",
+          "intents": [
+              {
+                  "name": "AMAZON.CancelIntent",
+                  "samples": []
+              },
+              {
+                  "name": "AMAZON.HelpIntent",
+                  "samples": []
+              },
+              {
+                  "name": "AMAZON.StopIntent",
+                  "samples": []
+              },
+              {
+                  "name": "AMAZON.NavigateHomeIntent",
+                  "samples": []
+              },
+              {
+                  "name": "AMAZON.FallbackIntent",
+                  "samples": []
+              },
+              {
+                  "name": "DoorStatus",
+                  "slots": [],
+                  "samples": [
+                      "if I unlocked the car",
+                      "if I locked the car",
+                      "check if the doors are locked right now",
+                      "check if the doors are unlocked right now",
+                      "check if the car is locked right now",
+                      "check if the car is unlocked right now",
+                      "if the doors unlocked",
+                      "if the doors locked",
+                      "if the car unlocked",
+                      "if the car is locked",
+                      "check if any doors are open",
+                      "Check if any of the doors are unlocked",
+                      "Check the door status",
+                      "Check the status of the doors",
+                      "Check the doors"
+                  ]
+              },
+              {
+                  "name": "LockCar",
+                  "slots": [
+                      {
+                          "name": "action",
+                          "type": "carLockState",
+                          "samples": [
+                              "unlock",
+                              "lock"
+                          ]
+                      }
+                  ],
+                  "samples": [
+                      "make sure to {action} the car",
+                      "{action} all the doors",
+                      "{action} all of the doors",
+                      "can you {action} the car",
+                      "{action} my car",
+                      "{action} the car"
+                  ]
+              },
+              {
+                  "name": "ChargeStatus",
+                  "slots": [],
+                  "samples": [
+                      "how much battery is left",
+                      "update me on the charge status",
+                      "update me on the charge level",
+                      "What is the charge percent remaining",
+                      "How much charge is remaining",
+                      "Give me the car charge level.",
+                      "What is the charge level of the car",
+                      "Give me the battery level",
+                      "What is the battery level of the car",
+                      "How much charge is left"
+                  ]
+              },
+              {
+                  "name": "FuelStatus",
+                  "slots": [],
+                  "samples": [
+                      "do I need to fill gas",
+                      "what is my fuel tank level",
+                      "what is my gas tank level",
+                      "do i need to refill gas",
+                      "how much gas is in the car",
+                      "do I need to refuel",
+                      "do I need to put fuel in the car",
+                      "how much fuel is remaining",
+                      "How much fuel is left"
+                  ]
+              },
+              {
+                  "name": "TireStatus",
+                  "slots": [
+                      {
+                          "name": "units",
+                          "type": "unitSystem",
+                          "samples": [
+                              "{units}",
+                              "{units} units"
+                          ]
+                      }
+                  ],
+                  "samples": [
+                      "check my tire status",
+                      "check the status of my tires",
+                      "check my tire pressure",
+                      "check the car's tire pressure",
+                      "give me the tire pressure",
+                      "check the pressure of the tires",
+                      "check the tire pressure",
+                      "check the pressure of my tires"
+                  ]
+              }
+          ],
+          "types": [
+              {
+                  "name": "carLockState",
+                  "values": [
+                      {
+                          "name": {
+                              "value": "UNLOCKED",
+                              "synonyms": [
+                                  "unlocked",
+                                  "unlock"
+                              ]
+                          }
+                      },
+                      {
+                          "name": {
+                              "value": "LOCKED",
+                              "synonyms": [
+                                  "locked",
+                                  "lock"
+                              ]
+                          }
+                      }
+                  ]
+              },
+              {
+                  "name": "unitSystem",
+                  "values": [
+                      {
+                          "name": {
+                              "value": "IMPERIAL",
+                              "synonyms": [
+                                  "imperial"
+                              ]
+                          }
+                      },
+                      {
+                          "name": {
+                              "value": "METRIC",
+                              "synonyms": [
+                                  "metric"
+                              ]
+                          }
+                      }
+                  ]
+              }
+          ]
+      },
+      "dialog": {
+          "intents": [
+              {
+                  "name": "LockCar",
+                  "confirmationRequired": false,
+                  "prompts": {},
+                  "slots": [
+                      {
+                          "name": "action",
+                          "type": "carLockState",
+                          "confirmationRequired": false,
+                          "elicitationRequired": true,
+                          "prompts": {
+                              "elicitation": "Elicit.Slot.644784993703.30636094349"
+                          }
+                      }
+                  ]
+              },
+              {
+                  "name": "TireStatus",
+                  "confirmationRequired": false,
+                  "prompts": {},
+                  "slots": [
+                      {
+                          "name": "units",
+                          "type": "unitSystem",
+                          "confirmationRequired": false,
+                          "elicitationRequired": true,
+                          "prompts": {
+                              "elicitation": "Elicit.Slot.555981740334.415951575176"
+                          }
+                      }
+                  ]
+              }
+          ],
+          "delegationStrategy": "ALWAYS"
+      },
+      "prompts": [
+          {
+              "id": "Elicit.Slot.644784993703.30636094349",
+              "variations": [
+                  {
+                      "type": "PlainText",
+                      "value": "Would you like to lock or unlock the car?"
+                  }
+              ]
+          },
+          {
+              "id": "Elicit.Slot.555981740334.415951575176",
+              "variations": [
+                  {
+                      "type": "PlainText",
+                      "value": "Sure, do you want the results in metric units or imperial units?"
+                  }
+              ]
+          }
+      ]
+  }
+}

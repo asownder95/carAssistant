@@ -7,6 +7,7 @@ const {
 } = require('./handlers/builtInIntents');
 const { DoorStatusHandler, LockCarHandler } = require('./handlers/doorHandlers');
 const { ChargeStatusHandler } = require('./handlers/chargeHandlers');
+const { FuelStatusHandler } = require('./handlers/fuelHandlers');
 const { AccountLinkingHandler } = require('./handlers/accountLinkingHandler');
 const { AuthenticationInterceptor } = require('./handlers/authenticationInterceptor');
 const { ErrorHandler } = require('./handlers/errorHandlers');
@@ -21,6 +22,7 @@ exports.handler = async (event, context) => {
       DoorStatusHandler,
       LockCarHandler,
       ChargeStatusHandler,
+      FuelStatusHandler,
       HelpIntentHandler,
       CancelAndStopIntentHandler,
       FallbackIntentHandler,

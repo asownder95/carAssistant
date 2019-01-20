@@ -5,15 +5,29 @@
           "intents": [
               {
                   "name": "AMAZON.CancelIntent",
-                  "samples": []
+                  "samples": [
+                    "cancel",
+                    "nevermind"
+                  ]
               },
               {
                   "name": "AMAZON.HelpIntent",
-                  "samples": []
+                  "samples": [
+                    "what can I do",
+                    "What can you do",
+                    "I need assistance",
+                    "I need help",
+                    "need help",
+                    "help"
+                  ]
               },
               {
                   "name": "AMAZON.StopIntent",
-                  "samples": []
+                  "samples": [
+                    "end",
+                    "finish",
+                    "stop"
+                  ]
               },
               {
                   "name": "AMAZON.NavigateHomeIntent",

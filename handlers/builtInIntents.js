@@ -12,7 +12,7 @@ exports.LaunchRequestHandler = {
 
 exports.HelpIntentHandler = {
   canHandle(handlerInput) {
-    return handlerInput.requestEnvelop.request.type === 'IntentRequest'
+    return handlerInput.requestEnvelope.request.type === 'IntentRequest'
       && handlerInput.requestEnvelope.request.intent.name === 'AMAZON.HelpIntent';
   },
   handle(handlerInput) {

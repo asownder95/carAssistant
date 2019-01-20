@@ -4,7 +4,7 @@
   "description": "Alexa skill using Mercedes Benz's Connected Vehicle API",
   "main": "index.js",
   "scripts": {
-    "build": "rm carAssistant.zip; zip -r -X carAssistant.zip handlers/ node_modules/ index.js package.json",
+    "build": "rm carAssistant.zip; zip -r -X carAssistant.zip handlers/ node_modules/ index.js package.json config.js",
     "start": "node oauthServer.js",
     "test": "jest"
   },

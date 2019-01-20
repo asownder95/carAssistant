@@ -17,7 +17,7 @@ exports.HelpIntentHandler = {
   },
   handle(handlerInput) {
     return handlerInput.responseBuilder
-      .speak('You can ask me to check or lock the doors on your car. What would you like to do?')
+      .speak('You can ask me to check or lock the doors on your car, check the battery or fuel levels, or check the car\'s tire pressure. What would you like to do?')
       .reprompt('What would you like to do?')
       .getResponse();
   },

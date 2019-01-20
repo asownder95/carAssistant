@@ -5,7 +5,6 @@ const request = require('request-promise');
 const redis = require('redis');
 
 const redisClient = redis.createClient(process.env.REDISCLOUD_URL);
-redisClient.on('connect', () => console.log('Redis connected.'));
 redisClient.on('error', err => console.error(`Error from Redis: ${JSON.stringify(err)}`));
 
 const app = express();
@@ -36,7 +35,7 @@ app.get('/accesstoken', async (req, res) => {
     });
     const { access_token, refresh_token } = JSON.parse(tokenObj);
     // Need to figure out a way to get userId parameter from Alexa skill context
-    // Using "userId" as a hard-coded placeholder for now.
+    // Using "userId" as a hard-coded userid placeholder for now.
     redisClient.set('userId', `${access_token}:${refresh_token}`, () => {
       res.send('Successful!');
     });
@@ -66,10 +65,8 @@ app.get('/refreshtoken', async (req, res) => {
   } catch (err) {
     if (err.statusCode === 400) {
       // If refresh token has expired or invalid
-      console.log(`refresh token err 400 catch block: ${JSON.stringify(err)}`);
       res.json('Expired');
     } else {
-      console.error(`Refresh Token endpoint error: ${JSON.stringify(err)}`);
       res.json(err);
     }
   }

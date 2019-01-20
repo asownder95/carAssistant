@@ -22,7 +22,6 @@ const ChargeStatusHandler = {
         .speak(`Your Mercedes-Benz's battery has ${JSON.parse(results).stateofcharge.value} percent remaining.`)
         .getResponse();
     } catch (err) {
-      console.log(`EARLIER ERROR: ${JSON.stringify(err)}`);
       if (err.statusCode === 401) {
         return handleExpiredAccessToken(handlerInput, ChargeStatusHandler);
       }

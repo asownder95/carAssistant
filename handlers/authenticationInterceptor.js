@@ -1,11 +1,6 @@
 const redis = require('redis');
 const { REDISCLOUD_URL } = require('../config');
 
-// console.log(`NEWLY ADDED CONSOLE.LOG: redis_url= ${REDISCLOUD_URL}`);
-// const redisClient = redis.createClient(REDISCLOUD_URL);
-// redisClient.on('connect', () => console.log('Redis connected'));
-// redisClient.on('error', err => console.error(`Error from Redis: ${JSON.stringify(err)}`));
-
 exports.AuthenticationInterceptor = {
   async process(handlerInput) {
     try {

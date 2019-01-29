@@ -1,6 +1,5 @@
 const request = require('request-promise');
-const { handleExpiredAccessToken } = require('./utils');
-const { API_ENDPOINT, VEHICLE_ID } = require('../config');
+const { API_ENDPOINT } = require('../config');
 
 const DoorStatusHandler = {
   canHandle(handlerInput) {
@@ -9,9 +8,10 @@ const DoorStatusHandler = {
   },
   async handle(handlerInput) {
     try {
-      const { accessToken } = handlerInput.attributesManager.getSessionAttributes();
+      const { accessToken } = handlerInput.requestEnvelope.context.System.user;
+      const { vehicleId } = handlerInput.attributesManager.getSessionAttributes();
       const results = await request({
-        uri: `${API_ENDPOINT}/vehicles/${VEHICLE_ID}/doors`,
+        uri: `${API_ENDPOINT}/vehicles/${vehicleId}/doors`,
         method: 'GET',
         headers: {
           authorization: `Bearer ${accessToken}`,
@@ -21,9 +21,6 @@ const DoorStatusHandler = {
         .speak(generateDoorStatusResponse(JSON.parse(results)))
         .getResponse();
     } catch (err) {
-      if (err.statusCode === 401) {
-        return handleExpiredAccessToken(handlerInput, DoorStatusHandler);
-      }
       throw err;
     }
   },
@@ -36,11 +33,12 @@ const LockCarHandler = {
   },
   async handle(handlerInput) {
     try {
-      const { accessToken } = handlerInput.attributesManager.getSessionAttributes();
+      const { accessToken } = handlerInput.requestEnvelope.context.System.user;
+      const { vehicleId } = handlerInput.attributesManager.getSessionAttributes();
       const action = handlerInput.requestEnvelope
         .request.intent.slots.action.value.toLowerCase().includes('un') ? 'UNLOCK' : 'LOCK';
       const results = await request({
-        uri: `${API_ENDPOINT}/vehicles/${VEHICLE_ID}/doors`,
+        uri: `${API_ENDPOINT}/vehicles/${vehicleId}/doors`,
         method: 'POST',
         headers: {
           authorization: `Bearer ${accessToken}`,
@@ -54,9 +52,6 @@ const LockCarHandler = {
         .speak(`Sure, ${action === 'LOCK' ? 'locking' : 'unlocking'} your Mercedes-Benz right now.`)
         .getResponse();
     } catch (err) {
-      if (err.statusCode === 401) {
-        return handleExpiredAccessToken(handlerInput, LockCarHandler);
-      }
       throw err;
     }
   },

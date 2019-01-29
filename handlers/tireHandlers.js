@@ -1,6 +1,5 @@
 const request = require('request-promise');
-const { handleExpiredAccessToken } = require('./utils');
-const { API_ENDPOINT, VEHICLE_ID } = require('../config');
+const { API_ENDPOINT } = require('../config');
 
 const TireStatusHandler = {
   canHandle(handlerInput) {
@@ -9,11 +8,12 @@ const TireStatusHandler = {
   },
   async handle(handlerInput) {
     try {
-      const { accessToken } = handlerInput.attributesManager.getSessionAttributes();
+      const { accessToken } = handlerInput.requestEnvelope.context.System.user;
+      const { vehicleId } = handlerInput.attributesManager.getSessionAttributes();
       const isMetricUnits = handlerInput.requestEnvelope
         .request.intent.slots.units.value.toLowerCase().includes('metric');
       const results = await request({
-        uri: `${API_ENDPOINT}/vehicles/${VEHICLE_ID}/tires`,
+        uri: `${API_ENDPOINT}/vehicles/${vehicleId}/tires`,
         method: 'GET',
         headers: {
           authorization: `Bearer ${accessToken}`,
@@ -24,9 +24,6 @@ const TireStatusHandler = {
         .speak(generateTireStatusResponse(JSON.parse(results), isMetricUnits))
         .getResponse();
     } catch (err) {
-      if (err.statusCode === 401) {
-        return handleExpiredAccessToken(handlerInput, TireStatusHandler);
-      }
       throw err;
     }
   },

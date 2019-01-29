@@ -1,6 +1,5 @@
 const request = require('request-promise');
-const { handleExpiredAccessToken } = require('./utils');
-const { API_ENDPOINT, VEHICLE_ID } = require('../config');
+const { API_ENDPOINT } = require('../config');
 
 const FuelStatusHandler = {
   canHandle(handlerInput) {
@@ -9,9 +8,10 @@ const FuelStatusHandler = {
   },
   async handle(handlerInput) {
     try {
-      const { accessToken } = handlerInput.attributesManager.getSessionAttributes();
+      const { accessToken } = handlerInput.requestEnvelope.context.System.user;
+      const { vehicleId } = handlerInput.attributesManager.getSessionAttributes();
       const results = await request({
-        uri: `${API_ENDPOINT}/vehicles/${VEHICLE_ID}/fuel`,
+        uri: `${API_ENDPOINT}/vehicles/${vehicleId}/fuel`,
         method: 'GET',
         headers: {
           authorization: `Bearer ${accessToken}`,
@@ -22,9 +22,6 @@ const FuelStatusHandler = {
         .speak(`The car has ${JSON.parse(results).fuellevelpercent.value} percent fuel remaining.`)
         .getResponse();
     } catch (err) {
-      if (err.statusCode === 401) {
-        return handleExpiredAccessToken(handlerInput, FuelStatusHandler);
-      }
       throw err;
     }
   },

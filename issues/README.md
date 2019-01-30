@@ -17,7 +17,7 @@ However, there would still have been issues with the skill due to how I implemen
 
 Initially, I had trouble setting up Account Linking in the Alexa Skill developer console. I would get the error below with no visibility into where the error had occured.
 
-![Account Linking Error](../images/accountLinkingError.jpg)
+![Account Linking Error](./images/accountLinkingError.jpg?raw=true)
 
 To get around this issue and more control over the Oauth2 authorization flow process, I created and hosted the `oauthServer.js` Express server to handle obtaining authorization codes and exchanging for access/refresh tokens.
 

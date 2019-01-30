@@ -11,26 +11,24 @@ const { FuelStatusHandler } = require('./handlers/fuelHandlers');
 const { TireStatusHandler } = require('./handlers/tireHandlers');
 const { AccountLinkingHandler } = require('./handlers/accountLinkingHandler');
 const { AuthenticationInterceptor } = require('./handlers/authenticationInterceptor');
-const { ErrorHandler } = require('./handlers/errorHandlers');
+const { AlexaErrorHandler, MercedesAPIErrorHandler } = require('./handlers/errorHandlers');
 
-exports.handler = async (event, context) => {
-  // This line of code allows handlers to return despite open redisClient connection
-  context.callbackWaitsForEmptyEventLoop = false;
-  return Alexa.SkillBuilders.custom()
-    .addRequestHandlers(
-      AccountLinkingHandler,
-      LaunchRequestHandler,
-      DoorStatusHandler,
-      LockCarHandler,
-      ChargeStatusHandler,
-      FuelStatusHandler,
-      TireStatusHandler,
-      HelpIntentHandler,
-      CancelAndStopIntentHandler,
-      FallbackIntentHandler,
-    )
-    .addRequestInterceptors(AuthenticationInterceptor)
-    .addErrorHandlers(ErrorHandler)
-    .create()
-    .invoke(event, context);
-};
+exports.handler = Alexa.SkillBuilders.custom()
+  .addRequestHandlers(
+    AccountLinkingHandler,
+    LaunchRequestHandler,
+    DoorStatusHandler,
+    LockCarHandler,
+    ChargeStatusHandler,
+    FuelStatusHandler,
+    TireStatusHandler,
+    HelpIntentHandler,
+    CancelAndStopIntentHandler,
+    FallbackIntentHandler,
+  )
+  .addRequestInterceptors(AuthenticationInterceptor)
+  .addErrorHandlers(
+    AlexaErrorHandler,
+    MercedesAPIErrorHandler,
+  )
+  .lambda();
